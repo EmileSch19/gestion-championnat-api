@@ -1,0 +1,20 @@
+const jwt = require('jsonwebtoken');
+
+// Middleware pour protéger les routes
+function authMiddleware(req, res, next) {
+  const token = req.headers['authorization'];
+
+  if (!token) {
+    return res.status(401).json({ message: 'Accès refusé. Aucun token fourni.' });
+  }
+
+  try {
+    const decoded = jwt.verify(token.split(' ')[1], process.env.JWT_SECRET);
+    req.user = decoded;
+    next();
+  } catch (err) {
+    return res.status(400).json({ message: 'Token invalide.' });
+  }
+}
+
+module.exports = { authMiddleware };
