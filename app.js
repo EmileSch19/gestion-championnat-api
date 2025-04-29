@@ -10,6 +10,7 @@ const championshipRoutes = require('./routes/championshipRoutes');
 const dayRoutes = require('./routes/dayRoutes');
 const teamChampionshipRoutes = require('./routes/teamChampionShipRoutes');
 const gameRoutes = require('./routes/gameRoutes');
+const authRoutes = require('./routes/authRoutes');
 
 
 // Initialisation
