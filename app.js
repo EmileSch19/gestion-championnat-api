@@ -4,12 +4,12 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const cors = require('cors');
 const userRoutes = require('./routes/userRoutes');
-const paysRoutes = require('./routes/paysRoutes');
-const championnatRoutes = require('./routes/championnatRoutes');
-const equipeRoutes = require('./routes/equipeRoutes');
-const journeeRoutes = require('./routes/journeeRoutes');
-const resultatRoutes = require('./routes/resultatRoutes');
-const authRoutes = require('./routes/authRoutes');
+const countryRoutes = require('./routes/countryRoutes');
+const teamRoutes = require('./routes/teamRoutes');
+const championshipRoutes = require('./routes/championshipRoutes');
+const dayRoutes = require('./routes/dayRoutes');
+const teamChampionshipRoutes = require('./routes/teamChampionShipRoutes');
+const gameRoutes = require('./routes/gameRoutes');
 
 
 // Initialisation
@@ -20,11 +20,12 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use('/api/users', userRoutes);
-app.use('/api/pays', paysRoutes);
-app.use('/api/championnats', championnatRoutes);
-app.use('/api/equipes', equipeRoutes);
-app.use('/api/journees', journeeRoutes);
-app.use('/api/resultats', resultatRoutes);
+app.use('/api/countries', countryRoutes);
+app.use('/api/teams', teamRoutes);
+app.use('/api/championships', championshipRoutes);
+app.use('/api/days', dayRoutes);
+app.use('/api/teamchampionships', teamChampionshipRoutes);
+app.use('/api/games', gameRoutes);
 app.use('/api/auth', authRoutes);
  // Pour lire le JSON dans les requêtes
 

@@ -1,48 +1,53 @@
-const userService = require('../services/userService');
-
-// Récupérer tous les utilisateurs
-async function getAllUsers(req, res) {
-  const users = await userService.getAllUsers();
-  res.json(users);
-}
-
-// Récupérer un utilisateur par ID
-async function getUserById(req, res) {
-  const user = await userService.getUserById(req.params.id);
-  if (!user) return res.status(404).json({ message: 'Utilisateur non trouvé' });
-  res.json(user);
-}
-
-// Récupérer un utilisateur par email
-async function getUserByEmail(req, res) {
-  const user = await userService.getUserByEmail(req.params.email);
-  if (!user) return res.status(404).json({ message: 'Utilisateur non trouvé' });
-  res.json(user);
-}
+const User = require('../models/user');
 
 // Créer un utilisateur
-async function createUser(req, res) {
-  const user = await userService.createUser(req.body);
-  res.status(201).json(user);
-}
+exports.createUser = async (req, res) => {
+  try {
+    const newUser = new User(req.body);
+    await newUser.save();
+    res.status(201).json(newUser);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};
+
+// Récupérer tous les utilisateurs
+exports.getAllUsers = async (req, res) => {
+  try {
+    const users = await User.find();
+    res.json(users);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
+
+// Récupérer un utilisateur par ID
+exports.getUserById = async (req, res) => {
+  try {
+    const user = await User.findById(req.params.id);
+    if (!user) return res.status(404).json({ error: 'Utilisateur non trouvé' });
+    res.json(user);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+};
 
 // Mettre à jour un utilisateur
-async function updateUser(req, res) {
-  const user = await userService.updateUser(req.params.id, req.body);
-  res.json(user);
-}
+exports.updateUser = async (req, res) => {
+  try {
+    const updated = await User.findByIdAndUpdate(req.params.id, req.body, { new: true });
+    res.json(updated);
+  } catch (err) {
+    res.status(400).json({ error: err.message });
+  }
+};
 
 // Supprimer un utilisateur
-async function deleteUser(req, res) {
-  await userService.deleteUser(req.params.id);
-  res.json({ message: 'Utilisateur supprimé' });
-}
-
-module.exports = {
-  getAllUsers,
-  getUserById,
-  getUserByEmail,
-  createUser,
-  updateUser,
-  deleteUser
+exports.deleteUser = async (req, res) => {
+  try {
+    await User.findByIdAndDelete(req.params.id);
+    res.json({ message: 'Utilisateur supprimé' });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
 };
